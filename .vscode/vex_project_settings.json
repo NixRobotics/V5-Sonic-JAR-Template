@@ -1,0 +1,18 @@
+{
+	"project": {
+		"name": "V5CPPSonic-JAR",
+		"slot": 2,
+		"description": "Empty V5 C++ Project",
+		"platform": "V5",
+		"creationDate": "Sat, 21 Jun 2025 23:39:25 GMT",
+		"language": "cpp",
+		"sdkVersion": "V5_20240802_15_00_00",
+		"cpp": {
+			"includePath": []
+		}
+	},
+	"extension": {
+		"version": "0.7.2025041600",
+		"json": 1
+	}
+}
