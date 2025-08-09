@@ -17,9 +17,16 @@ motor RightRear = motor(PORT3, ratio6_1, false);
 inertial InertialSensor = inertial(PORT10);
 distance RightRearDistance = distance(PORT9);
 distance LeftRearDistance = distance(PORT8);
-rotation RotationRight = rotation(PORT19, true);
-rotation RotationRear = rotation(PORT20, true);
+myrotation RotationRight = myrotation(PORT19, 10, true);
+myrotation RotationRear = myrotation(PORT20, 10, true);
 
 void vexcodeInit( void ) {
+  this_thread::sleep_for(100); // Sleep for a short time to allow devices to initialize
+  InertialSensor.calibrate();
+  while (InertialSensor.isCalibrating()) {
+    this_thread::sleep_for(100);
+  }
+  RotationRight.resetPosition();
+  RotationRear.resetPosition();
   // nothing to initialize
 }

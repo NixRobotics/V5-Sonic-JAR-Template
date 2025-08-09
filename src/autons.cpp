@@ -10,10 +10,12 @@
 
 void default_constants(){
   // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
-  chassis.set_drive_constants(10, 1.5, 0, 10, 0);
-  chassis.set_heading_constants(6, .4, 0, 1, 0);
+  // chassis.set_drive_constants(10, 1.5, 0, 10, 0);
+  // chassis.set_heading_constants(6, .4, 0, 1, 0);
   // chassis.set_turn_constants(6, .4, .03, 3, 15);
-  chassis.set_turn_constants(6, .4, .0, 0, 15);
+  chassis.set_drive_constants(6, 1.5, 0, 10, 0);
+  chassis.set_heading_constants(6, .35, 0, 1, 0);
+  chassis.set_turn_constants(6, .35, .01, 1, 15);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
 
   // Each exit condition set is in the form of (settle_error, settle_time, timeout).
@@ -30,8 +32,10 @@ void default_constants(){
 
 void odom_constants(){
   default_constants();
-  chassis.heading_max_voltage = 10;
-  chassis.drive_max_voltage = 8;
+  // chassis.heading_max_voltage = 10;
+  // chassis.drive_max_voltage = 8;
+  chassis.heading_max_voltage = 6;
+  chassis.drive_max_voltage = 6;
   chassis.drive_settle_error = 3;
   chassis.boomerang_lead = .5;
   chassis.drive_min_voltage = 0;
@@ -42,6 +46,39 @@ void odom_constants(){
  */
 
 void drive_test(){
+  chassis.set_coordinates(0, 0, 0);
+  printf("Rotation: %f\n", RotationRight.position(turns));
+
+  for (int i = 0; i < 10; i++) {
+
+    default_constants();
+    chassis.drive_distance(-12);
+    chassis.drive_stop(brake);
+    //chassis.turn_to_angle(90);
+    //chassis.turn_to_angle(0);
+
+    this_thread::sleep_for(500);
+    printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+    printf("Rotation: %f\n", RotationRight.position(turns));
+
+    // chassis.drive_distance(12);
+    // chassis.drive_stop(brake);
+    // this_thread::sleep_for(1000);
+    // printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+    odom_constants();
+    chassis.drive_to_pose(0, 0, 0);
+    chassis.drive_stop(brake);
+
+    this_thread::sleep_for(500);
+    printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+    printf("Rotation: %f\n", RotationRight.position(turns));
+
+  }
+
+}
+
+ void drive_test_temp(){
   chassis.drive_distance(6);
   chassis.drive_distance(12);
   chassis.drive_distance(18);
@@ -51,6 +88,17 @@ void drive_test(){
 /**
  * The expected behavior is to return to the start angle, after making a complete turn.
  */
+
+void turn_test_temp(bool reverse) {
+  chassis.turn_to_angle((reverse) ? -90 : 90);
+  this_thread::sleep_for(1000);
+  printf("heading: %f\n", chassis.get_absolute_heading());
+
+  chassis.turn_to_angle(0);
+  this_thread::sleep_for(1000);
+  printf("heading: %f\n", chassis.get_absolute_heading());
+
+}
 
 void turn_test(bool reverse) {
   chassis.turn_to_angle((reverse) ? -5 : 5);
@@ -73,6 +121,7 @@ void turn_test(bool reverse) {
   this_thread::sleep_for(1000);
   printf("heading: %f\n", chassis.get_absolute_heading());
 }
+
 
 /**
  * Should swing in a fun S shape.

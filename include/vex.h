@@ -18,6 +18,7 @@
 #include "v5.h"
 #include "v5_vcs.h"
 
+#include "JAR-Template/sensors.h"
 #include "robot-config.h"
 #include "JAR-Template/odom.h"
 #include "JAR-Template/drive.h"

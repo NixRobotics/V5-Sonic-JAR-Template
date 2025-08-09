@@ -123,11 +123,13 @@ float PID::compute(float error){
  */
 
 bool PID::is_settled(){
-  if (time_spent_running>timeout && timeout != 0){
+  if (time_spent_running > timeout && timeout != 0){
+    printf("PID timed out after %f ms.\n", time_spent_running);
     return(true);
   } // If timeout does equal 0, the move will never actually time out. Setting timeout to 0 is the 
     // equivalent of setting it to infinity.
-  if (time_spent_settled>settle_time){
+  if (time_spent_settled > settle_time){
+    printf("PID settled after %f ms.\n", time_spent_settled);
     return(true);
   }
   return(false);

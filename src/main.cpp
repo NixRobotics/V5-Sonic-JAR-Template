@@ -87,7 +87,7 @@ PORT3,     -PORT4,
 PORT19,
 
 //Input the Forward Tracker diameter (reverse it to make the direction switch):
--2.0,
+2.0,
 
 //Input Forward Tracker center distance (a positive distance corresponds to a tracker on the right side of the robot, negative is left.)
 //For a zero tracker tank drive with odom, put the positive distance from the center of the robot to the right side of the drive.
@@ -98,7 +98,7 @@ PORT19,
 PORT20,
 
 //Sideways tracker diameter (reverse to make the direction switch):
--2.0,
+2.0,
 
 //Sideways tracker center distance (positive distance is behind the center of the robot, negative is in front):
 7.0
@@ -240,9 +240,10 @@ int main() {
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
-
+  
   // Run the pre-autonomous function.
-  current_auton_selection = 2;
+  printf("\nStarting new run\n\n");
+  current_auton_selection = 1;
   auto_started = true;
 
   pre_auton();

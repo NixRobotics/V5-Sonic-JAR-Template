@@ -443,7 +443,7 @@ void Drive::set_coordinates(float X_position, float Y_position, float orientatio
  */
 
 float Drive::get_X_position(){
-  return(odom.X_position);
+  return((float) odom.X_position);
 }
 
 /**
@@ -453,7 +453,7 @@ float Drive::get_X_position(){
  */
 
 float Drive::get_Y_position(){
-  return(odom.Y_position);
+  return((float) odom.Y_position);
 }
 
 /**

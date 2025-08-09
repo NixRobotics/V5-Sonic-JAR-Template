@@ -12,8 +12,8 @@ private:
   float ForwardTracker_position;
   float SideWaysTracker_position;
 public:
-  float X_position;
-  float Y_position;
+  double X_position;
+  double Y_position;
   float orientation_deg;
   void set_position(float X_position, float Y_position, float orientation_deg, float ForwardTracker_position, float SidewaysTracker_position);
   void update_position(float ForwardTracker_position, float SidewaysTracker_position, float orientation_deg);

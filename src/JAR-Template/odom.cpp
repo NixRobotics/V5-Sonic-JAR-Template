@@ -53,42 +53,42 @@ void Odom::set_position(float X_position, float Y_position, float orientation_de
 
 void Odom::update_position(float ForwardTracker_position, float SidewaysTracker_position, float orientation_deg){
   // this-> always refers to the old version of the variable, so subtracting this->x from x gives delta x.
-  float Forward_delta = ForwardTracker_position-this->ForwardTracker_position;
-  float Sideways_delta = SidewaysTracker_position-this->SideWaysTracker_position;
-  this->ForwardTracker_position=ForwardTracker_position;
-  this->SideWaysTracker_position=SidewaysTracker_position;
-  float orientation_rad = to_rad(orientation_deg);
-  float prev_orientation_rad = to_rad(this->orientation_deg);
-  float orientation_delta_rad = orientation_rad-prev_orientation_rad;
+  double Forward_delta = ForwardTracker_position - this->ForwardTracker_position;
+  double Sideways_delta = SidewaysTracker_position - this->SideWaysTracker_position;
+  this->ForwardTracker_position = ForwardTracker_position;
+  this->SideWaysTracker_position = SidewaysTracker_position;
+  double orientation_rad = to_rad(orientation_deg);
+  double prev_orientation_rad = to_rad(this->orientation_deg);
+  double orientation_delta_rad = orientation_rad-prev_orientation_rad;
   this->orientation_deg=orientation_deg;
 
-  float local_X_position;
-  float local_Y_position;
+  double local_X_position;
+  double local_Y_position;
 
-  if (orientation_delta_rad == 0) {
+  if (orientation_delta_rad == 0.0) {
     local_X_position = Sideways_delta;
     local_Y_position = Forward_delta;
   } else {
-    local_X_position = (2*sin(orientation_delta_rad/2))*((Sideways_delta/orientation_delta_rad)+SidewaysTracker_center_distance); 
-    local_Y_position = (2*sin(orientation_delta_rad/2))*((Forward_delta/orientation_delta_rad)+ForwardTracker_center_distance);
+    local_X_position = (2.0 * sin(orientation_delta_rad / 2.0))*((Sideways_delta / orientation_delta_rad) + SidewaysTracker_center_distance); 
+    local_Y_position = (2.0 * sin(orientation_delta_rad / 2.0))*((Forward_delta / orientation_delta_rad) + ForwardTracker_center_distance);
   }
 
-  float local_polar_angle;
-  float local_polar_length;
+  double local_polar_angle;
+  double local_polar_length;
 
-  if (local_X_position == 0 && local_Y_position == 0){
-    local_polar_angle = 0;
-    local_polar_length = 0;
+  if (local_X_position == 0.0 && local_Y_position == 0.0){
+    local_polar_angle = 0.0;
+    local_polar_length = 0.0;
   } else {
     local_polar_angle = atan2(local_Y_position, local_X_position); 
     local_polar_length = sqrt(pow(local_X_position, 2) + pow(local_Y_position, 2)); 
   }
 
-  float global_polar_angle = local_polar_angle - prev_orientation_rad - (orientation_delta_rad/2);
+  double global_polar_angle = local_polar_angle - prev_orientation_rad - (orientation_delta_rad / 2.0);
 
-  float X_position_delta = local_polar_length*cos(global_polar_angle); 
-  float Y_position_delta = local_polar_length*sin(global_polar_angle);
+  double X_position_delta = local_polar_length * cos(global_polar_angle); 
+  double Y_position_delta = local_polar_length * sin(global_polar_angle);
 
-  X_position+=X_position_delta;
-  Y_position+=Y_position_delta;
+  X_position += X_position_delta;
+  Y_position += Y_position_delta;
 }

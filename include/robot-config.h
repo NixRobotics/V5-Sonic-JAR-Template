@@ -12,7 +12,7 @@ extern motor RightRear;
 extern inertial InertialSensor;
 extern distance RightRearDistance;
 extern distance LeftRearDistance;
-extern rotation RotationRight;
-extern rotation RotationRear;
+extern myrotation RotationRight;
+extern myrotation RotationRear;
 
 void  vexcodeInit( void );

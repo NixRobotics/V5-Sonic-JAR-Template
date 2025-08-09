@@ -34,8 +34,8 @@ public:
   motor DriveRF;
   motor DriveLB;
   motor DriveRB;
-  rotation R_ForwardTracker;
-  rotation R_SidewaysTracker;
+  myrotation R_ForwardTracker;
+  myrotation R_SidewaysTracker;
   encoder E_ForwardTracker;
   encoder E_SidewaysTracker;
 
