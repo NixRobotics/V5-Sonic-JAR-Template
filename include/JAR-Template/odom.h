@@ -7,15 +7,21 @@
 class Odom
 {
 private:
-  float ForwardTracker_center_distance;
-  float SidewaysTracker_center_distance;
-  float ForwardTracker_position;
-  float SideWaysTracker_position;
+  double ForwardTracker_center_distance;
+  double SidewaysTracker_center_distance;
+  double ForwardTracker_position;
+  double SideWaysTracker_position;
+  bool is_running = false;
 public:
-  double X_position;
-  double Y_position;
-  float orientation_deg;
+  double X_position, X_local;
+  double Y_position, Y_local;
+  double orientation_deg;
   void set_position(float X_position, float Y_position, float orientation_deg, float ForwardTracker_position, float SidewaysTracker_position);
-  void update_position(float ForwardTracker_position, float SidewaysTracker_position, float orientation_deg);
-  void set_physical_distances(float ForwardTracker_center_distance, float SidewaysTracker_center_distance);
+  void update_position(double ForwardTracker_position, double SidewaysTracker_position, double orientation_deg);
+  void set_physical_distances(double ForwardTracker_center_distance, double SidewaysTracker_center_distance);
 };
+
+#ifdef ODOM_PLAYBACK
+extern double playback_buffer[500][3];
+extern int playback_buffer_len;
+#endif

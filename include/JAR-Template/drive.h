@@ -83,11 +83,11 @@ public:
 
   void drive_with_voltage(float leftVoltage, float rightVoltage);
 
-  float get_absolute_heading();
+  double get_absolute_heading();
 
-  float get_left_position_in();
+  double get_left_position_in();
 
-  float get_right_position_in();
+  double get_right_position_in();
 
   void set_turn_constants(float turn_max_voltage, float turn_kp, float turn_ki, float turn_kd, float turn_starti); 
   void set_drive_constants(float drive_max_voltage, float drive_kp, float drive_ki, float drive_kd, float drive_starti);
@@ -115,15 +115,15 @@ public:
   void right_swing_to_angle(float angle, float swing_max_voltage, float swing_settle_error, float swing_settle_time, float swing_timeout, float swing_kp, float swing_ki, float swing_kd, float swing_starti);
   
   Odom odom;
-  float get_ForwardTracker_position();
-  float get_SidewaysTracker_position();
+  double get_ForwardTracker_position();
+  double get_SidewaysTracker_position();
   void set_coordinates(float X_position, float Y_position, float orientation_deg);
   void set_heading(float orientation_deg);
   void position_track();
   static int position_track_task();
   vex::task odom_task;
-  float get_X_position();
-  float get_Y_position();
+  double get_X_position();
+  double get_Y_position();
 
   void drive_stop(vex::brakeType mode);
 

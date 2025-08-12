@@ -47,6 +47,7 @@ void odom_constants(){
 
 void drive_test(){
   chassis.set_coordinates(0, 0, 0);
+  this_thread::sleep_for(100);
   printf("Rotation: %f\n", RotationRight.position(turns));
 
   for (int i = 0; i < 10; i++) {
@@ -54,12 +55,11 @@ void drive_test(){
     default_constants();
     chassis.drive_distance(-12);
     chassis.drive_stop(brake);
-    //chassis.turn_to_angle(90);
-    //chassis.turn_to_angle(0);
+    chassis.turn_to_angle(90);
+    chassis.turn_to_angle(0);
 
     this_thread::sleep_for(500);
-    printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
-    printf("Rotation: %f\n", RotationRight.position(turns));
+    printf("Pose: %lf, %lf, %lf\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
 
     // chassis.drive_distance(12);
     // chassis.drive_stop(brake);
@@ -72,7 +72,6 @@ void drive_test(){
 
     this_thread::sleep_for(500);
     printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
-    printf("Rotation: %f\n", RotationRight.position(turns));
 
   }
 

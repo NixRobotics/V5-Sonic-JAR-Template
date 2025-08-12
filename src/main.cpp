@@ -248,7 +248,7 @@ int main() {
 
   pre_auton();
 
-  this_thread::sleep_for(5000);
+  this_thread::sleep_for(1000);
 
   autonomous();
 

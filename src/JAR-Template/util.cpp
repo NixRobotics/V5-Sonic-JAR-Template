@@ -7,10 +7,10 @@
  * @return Reduced angle.
  */
 
-float reduce_0_to_360(float angle) {
-  while(!(angle >= 0 && angle < 360)) {
-    if( angle < 0 ) { angle += 360; }
-    if(angle >= 360) { angle -= 360; }
+double reduce_0_to_360(double angle) {
+  while(!(angle >= 0.0 && angle < 360.0)) {
+    if( angle < 0.0 ) { angle += 360.0; }
+    if(angle >= 360.0) { angle -= 360.0; }
   }
   return(angle);
 }
@@ -22,13 +22,29 @@ float reduce_0_to_360(float angle) {
  * @return Reduced angle.
  */
 
-float reduce_negative_180_to_180(float angle) {
-  while(!(angle >= -180 && angle < 180)) {
-    if( angle < -180 ) { angle += 360; }
-    if(angle >= 180) { angle -= 360; }
+double reduce_negative_180_to_180(double angle) {
+  while(!(angle >= -180.0 && angle < 180.0)) {
+    if( angle < -180.0 ) { angle += 360.0; }
+    if(angle >= 180.0) { angle -= 360.0; }
   }
   return(angle);
 }
+
+/**
+ * Converts an angle to an equivalent one in the range [-180, 180).
+ * 
+ * @param angle The angle to be reduced in degrees.
+ * @return Reduced angle.
+ */
+
+double reduce_negative_PI_to_PI(double angle) {
+  while(!(angle >= -M_PI && angle < M_PI)) {
+    if( angle < -M_PI ) { angle += 2.0 * M_PI; }
+    if(angle >= M_PI) { angle -= 2.0 * M_PI; }
+  }
+  return(angle);
+}
+
 
 /**
  * Converts an angle to an equivalent one in the range [-90, 90).
@@ -54,8 +70,8 @@ float reduce_negative_90_to_90(float angle) {
  * @return Angle in radians.
  */
 
-float to_rad(float angle_deg){
-  return(angle_deg/(180.0/M_PI));
+double to_rad(double angle_deg){
+  return(angle_deg / (180.0 / M_PI));
 }
 
 /**
@@ -65,8 +81,8 @@ float to_rad(float angle_deg){
  * @return Angle in degrees.
  */
 
-float to_deg(float angle_rad){
-  return(angle_rad*(180.0/M_PI));
+double to_deg(double angle_rad){
+  return(angle_rad * (180.0 / M_PI));
 }
 
 /**
