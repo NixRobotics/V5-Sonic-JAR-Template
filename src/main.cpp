@@ -92,7 +92,7 @@ PORT19,
 //Input Forward Tracker center distance (a positive distance corresponds to a tracker on the right side of the robot, negative is left.)
 //For a zero tracker tank drive with odom, put the positive distance from the center of the robot to the right side of the drive.
 //This distance is in inches:
-2.25,
+1.977652905, // 2.25,
 
 //Input the Sideways Tracker Port, following the same steps as the Forward Tracker Port:
 PORT20,
@@ -101,9 +101,14 @@ PORT20,
 2.0,
 
 //Sideways tracker center distance (positive distance is behind the center of the robot, negative is in front):
-7.0
+4.839768032 // 7.0
 
 );
+
+// Note: These were determined by turning a robot 360 degrees and calculating the distance the tracker wheels travelled
+// 1.977652905
+// 4.839768032
+
 
 int current_auton_selection = 0;
 bool auto_started = false;
@@ -182,7 +187,6 @@ void autonomous(void) {
       break;
     case 2:
       turn_test(false);
-      turn_test(true);
       break;
     case 3:
       swing_test();
@@ -200,6 +204,9 @@ void autonomous(void) {
       holonomic_odom_test();
       break;
  }
+
+ auto_started = false;
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -226,7 +233,9 @@ void usercontrol(void) {
 
     //Replace this line with chassis.control_tank(); for tank drive 
     //or chassis.control_holonomic(); for holo drive.
-    chassis.control_arcade();
+    if (!auto_started) {
+      chassis.control_arcade();
+    }
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
@@ -243,7 +252,7 @@ int main() {
   
   // Run the pre-autonomous function.
   printf("\nStarting new run\n\n");
-  current_auton_selection = 1;
+  current_auton_selection = 6;
   auto_started = true;
 
   pre_auton();

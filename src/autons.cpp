@@ -10,13 +10,16 @@
 
 void default_constants(){
   // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
+
   // chassis.set_drive_constants(10, 1.5, 0, 10, 0);
   // chassis.set_heading_constants(6, .4, 0, 1, 0);
   // chassis.set_turn_constants(6, .4, .03, 3, 15);
-  chassis.set_drive_constants(6, 1.5, 0, 10, 0);
-  chassis.set_heading_constants(6, .35, 0, 1, 0);
-  chassis.set_turn_constants(6, .35, .01, 1, 15);
-  chassis.set_swing_constants(12, .3, .001, 2, 15);
+  // chassis.set_swing_constants(12, .3, .001, 2, 15);
+
+  chassis.set_drive_constants(6.0, 1.5, 0.0, 10.0, 0.0);
+  chassis.set_heading_constants(6.0, .35, 0.0, 1.0, 0.0);
+  chassis.set_turn_constants(6.0, .35, .01, 1.0, 15.0);
+  chassis.set_swing_constants(12.0, 0.75, 0.001, 1.0, 15.0);
 
   // Each exit condition set is in the form of (settle_error, settle_time, timeout).
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
@@ -99,7 +102,7 @@ void turn_test_temp(bool reverse) {
 
 }
 
-void turn_test(bool reverse) {
+void turn_test_full(bool reverse) {
   chassis.turn_to_angle((reverse) ? -5 : 5);
   this_thread::sleep_for(1000);
   printf("heading: %f\n", chassis.get_absolute_heading());
@@ -121,6 +124,23 @@ void turn_test(bool reverse) {
   printf("heading: %f\n", chassis.get_absolute_heading());
 }
 
+void turn_test(bool reverse) {
+  chassis.turn_to_angle(180);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(100);
+  printf("heading: %lf\n", chassis.get_absolute_heading());
+  printf("ForwardTracker: %lf\n", RotationRight.position(turns));
+  printf("SidewaysTracker: %lf\n", RotationRear.position(turns));
+
+  chassis.turn_to_angle(0);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(100);
+  printf("heading: %lf\n", chassis.get_absolute_heading());
+  printf("ForwardTracker: %lf\n", RotationRight.position(turns));
+  printf("SidewaysTracker: %lf\n", RotationRear.position(turns));
+}
+
+
 
 /**
  * Should swing in a fun S shape.
@@ -128,6 +148,8 @@ void turn_test(bool reverse) {
 
 void swing_test(){
   chassis.left_swing_to_angle(90);
+  chassis.left_swing_to_angle(0);
+  chassis.right_swing_to_angle(-90);
   chassis.right_swing_to_angle(0);
 }
 
@@ -168,14 +190,61 @@ void odom_test(){
  * will be curved while the first is straight.
  */
 
+void tank_odom_test_temp(){
+  odom_constants();
+  chassis.set_coordinates(0, 0, 0);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+  chassis.turn_to_point(24, 24);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+  chassis.drive_to_point(24,24);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+  chassis.drive_to_point(0,0);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+  chassis.turn_to_angle(0);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+}
+
 void tank_odom_test(){
   odom_constants();
   chassis.set_coordinates(0, 0, 0);
+  chassis.drive_to_point(0, 24);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
   chassis.turn_to_point(24, 24);
-  chassis.drive_to_point(24,24);
+  chassis.drive_to_point(24, 24);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+  chassis.turn_to_point(24, 0);
+  chassis.drive_to_point(24, 0);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
+  chassis.turn_to_point(0, 0);
   chassis.drive_to_point(0,0);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
+
   chassis.turn_to_angle(0);
+  chassis.drive_stop(brake);
+  this_thread::sleep_for(500);
+  printf("Pose: %f, %f, %f\n", chassis.get_X_position(), chassis.get_Y_position(), chassis.get_absolute_heading());
 }
+
 
 /**
  * Drives in a square while making a full turn in the process. Should
